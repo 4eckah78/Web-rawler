@@ -60,7 +60,7 @@ def get_data(post):
     return data
 
 
-def get_posts_by_q(q, start_time=1676025351):
+def get_posts_by_q(q,end_time = int(time.mktime(datetime.now().timetuple())), start_time=1676025351):
     start = datetime.now()
     all_posts = []
     url = "https://api.vk.com/method/newsfeed.search"
@@ -69,7 +69,8 @@ def get_posts_by_q(q, start_time=1676025351):
         "q": q,
         "access_token": token,
         "v": 5.131,
-        "count": 100,
+        # "count": 100,
+        end_time: end_time,
         start_time: start_time,
     }
     while True:
@@ -95,8 +96,10 @@ def get_posts_by_q(q, start_time=1676025351):
         if oldest_post_date <= start_time:
             break
         sleep(0.4)
-
-    write_to_csv(all_posts, "posts_SPbU.csv")
+    if q.upper() == "#СПБГУ":
+        write_to_csv(all_posts, "posts_SPbU.csv")
+    elif q.upper() == "#МГУ":
+        write_to_csv(all_posts, "posts_MGU.csv")
 
     print(len(all_posts))
 
