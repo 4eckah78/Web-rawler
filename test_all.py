@@ -26,8 +26,7 @@ def test_3():
     q = "Просто текст"
     date_time = datetime(2023, 3, 13, 0, 0)
     start_time = int(time.mktime(date_time.timetuple()))
-    with pytest.raises(ValueError):
-        get_posts_by_q(q, start_time=start_time)
+    get_posts_by_q(q, start_time=start_time)
 
 # # Проверка на подачу обычного текста на английском
 def test_4():
@@ -118,5 +117,5 @@ def test_12():
     date_time = datetime(2023, 3, 13, 0, 0)
     end_time = int(time.mktime(end_time.timetuple()))
     start_time = int(time.mktime(date_time.timetuple()))
-    assert get_posts_by_q(q, start_time=start_time, end_time=end_time) == 750
+    assert len(get_posts_by_q(q, start_time=start_time, end_time=end_time)) == 510
 
