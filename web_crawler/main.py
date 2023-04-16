@@ -60,7 +60,11 @@ def get_data(post):
     return data
 
 
-def get_posts_by_q(q,end_time = int(time.mktime(datetime.now().timetuple())), start_time=1676025351):
+def get_posts_by_q(q, end_time=int(time.mktime(datetime.now().timetuple())), start_time=1676025351):
+    if (not isinstance(q, str) or end_time < start_time or not isinstance(end_time, int) or
+            not isinstance( start_time, int) or end_time > int(time.mktime(datetime.now().timetuple()))):
+        raise ValueError
+
     start = datetime.now()
     all_posts = []
     url = "https://api.vk.com/method/newsfeed.search"
