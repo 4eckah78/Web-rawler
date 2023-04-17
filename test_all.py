@@ -117,5 +117,5 @@ def test_12():
     date_time = datetime(2023, 3, 13, 0, 0)
     end_time = int(time.mktime(end_time.timetuple()))
     start_time = int(time.mktime(date_time.timetuple()))
-    assert len(get_posts_by_q(q, start_time=start_time, end_time=end_time)) == 510
+    assert len(get_posts_by_q(q, start_time=start_time, end_time=end_time)) == 540
 

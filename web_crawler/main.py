@@ -77,6 +77,7 @@ def get_posts_by_q(q, end_time=int(time.mktime(datetime.now().timetuple())), sta
         end_time: end_time,
         start_time: start_time,
     }
+    counter = 0
     while True:
         if next_from:
             params["start_from"] = next_from
@@ -86,20 +87,22 @@ def get_posts_by_q(q, end_time=int(time.mktime(datetime.now().timetuple())), sta
             print(f'[ERROR] {src["error"]["error_msg"]}')
             break
         posts = src["response"]
-        if "next_from" in posts:
-            next_from = posts["next_from"]
-        else:
-            print("Something went wrong with next_from!")
-            break
 
         for post in posts["items"]:
             data = get_data(post)
             all_posts.append(data)
 
+        counter += 1
+        print(f"{counter} iteration")
         oldest_post_date = all_posts[-1]["date"]
         if oldest_post_date <= start_time:
             break
-        sleep(0.4)
+        if "next_from" in posts:
+            next_from = posts["next_from"]
+        else:
+            print("Something went wrong with next_from!")
+            break
+        # sleep(0.4)
     if q.upper() == "#СПБГУ":
         write_to_csv(all_posts, "posts_SPbU.csv")
     elif q.upper() == "#МГУ":
@@ -113,7 +116,7 @@ def get_posts_by_q(q, end_time=int(time.mktime(datetime.now().timetuple())), sta
 
 def main():
     q = "#СПбГУ"
-    date_time = datetime(2023, 3, 13, 0, 0)
+    date_time = datetime(2023, 1, 13, 0, 0)
     start_time = int(time.mktime(date_time.timetuple()))
     get_posts_by_q(q, start_time=start_time)
 
